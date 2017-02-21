@@ -1,0 +1,174 @@
+@font-face{
+	font-family: MI_Solid;
+	src: url(../_fonts/MI_Solid.TTF);
+}
+
+@font-face{
+	font-family: MI_Outline;
+	src: url(../_fonts/MI_Outline.TTF);
+}
+
+#mainContainer{
+	width: 960px;
+	height: 690px;
+	overflow: hidden;
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+	position: absolute;
+	margin: auto;
+	cursor: crosshair;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+#canvas{
+	position: absolute;
+	overflow: hidden;
+	width : 960px;
+	height: 540px;
+	margin: auto;
+	left: 0;
+	right: 0;
+	top: 0;	
+}
+
+#onscreenText{
+	font-family: MI_Solid;
+	color: #ffffff;
+
+	font-size: 24px;
+	width: 480px;
+	text-align: center;
+	display: inline-block;
+	position: absolute;
+}
+
+.dialogueOption{
+	font-family: MI_Solid;
+	color: #800080;
+	font-size: 24px;
+
+}
+
+#convoText{
+	font-family: MI_Solid;
+	color: #ffffff;
+	-webkit-text-stroke-width: 2.5px;
+	-webkit-text-stroke-color: black;
+	font-size: 45px;
+	letter-spacing: -5px;
+	width: 480px;
+	top: 10%;
+	text-align: center;
+	display: inline-block;
+	position: absolute;
+}
+
+#clickedElement{
+	position: absolute;
+	color: #ffffff;
+	size: 20px;
+	top: 10px;
+	left: 20px;
+}
+
+#HUD{
+	position: absolute;
+	margin: auto;
+	top: 540px;
+	height: 150px;
+	left: 0;
+	right: 0;
+	background-color: #000000;
+}
+
+#interaction{
+	font-family: MI_Solid;
+	text-align: center;
+	font-size: 30px;
+	color: #800080;
+}
+
+#walkTo{
+	top: 45.33%;
+	left: 12.5%;
+}
+
+#lookAt{
+	top: 80%;
+	left: 12.5%;
+}
+
+#talkTo{
+	top: 45.33%;
+	left:32.5%;
+}
+
+#use{
+	top: 80%;
+	left: 32.5%;
+}
+.unselectable{
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+	-webkit-touch-callout: none;
+}
+.invBlock{
+	position: absolute;
+	height: 33%;
+	width: 12.5%;
+	transform: translate(-50%, -50%);
+	background-color: #1a001a;
+	display: inline-block;
+	text-align: center;
+}
+
+.intButton{
+	position: absolute;
+	font-family: MI_Solid;
+	font-size: 40px;
+	color: #800080;
+	transform: translate(-50%, -50%);
+	background-color: #1a001a;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#inv0{
+	left: 50%;
+	top: 45.33%;
+}
+#inv1{
+	left: 63%;
+	top: 45.33%;
+}
+#inv2{
+	left: 76%;
+	top: 45.33%;
+}
+#inv3{
+	left: 89%;
+	top: 45.33%;
+}
+#inv4{
+	left: 50%;
+	top: 80%;
+}
+#inv5{
+	left: 63%;
+	top: 80%;
+}
+#inv6{
+	left: 76%;
+	top: 80%;
+}
+#inv7{
+	left: 89%;
+	top: 80%;
+}

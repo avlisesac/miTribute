@@ -1,0 +1,1004 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset=UTF-8>
+		<title> Guybrush Test</title>
+		<link href = "_css/main.css" rel = "stylesheet">
+		
+	</head>
+	<body>
+		<script type = 'text/javascript' src = "_js/underscore.js"></script>
+		<script type = 'text/javascript' src = "_js/three.min.js"></script>
+		<script type = 'text/javascript' src = "_js/patrol.js"></script>
+		<script type = 'text/javascript' src = "_js/TweenMax.js"></script>
+		<script type = 'text/javascript' src = "_js/JSONLoader.js"></script>
+		<script type = 'text/javascript' src = "_js/pirate01Convo.js"></script>
+		<script type = 'text/javascript' src = "_js/loadModelsFunction.js"></script>
+		
+		<div id = "mainContainer">
+			<div id = "canvas" class = "noCursor">
+			</div>
+			<div id = "onscreenText">
+			</div>
+			<div id = "convoText">
+			</div>
+			<div id = "HUD">
+					<div id = "interaction"></div>
+					<div id = "walkTo" class = 'unselectable intButton' onmouseover = "this.style.color = '#ff00ff'" onmouseout = "this.style.color = '#800080'" onclick = "intVal = '0'">Walk To</div>
+					<div id = "lookAt" class = 'unselectable intButton' onmouseover = "this.style.color = '#ff00ff'" onmouseout = "this.style.color = '#800080'" onclick = "intVal = '1'">Look At</div>
+					<div id = "talkTo" class = 'unselectable intButton' onmouseover = "this.style.color = '#ff00ff'" onmouseout = "this.style.color = '#800080'" onclick = "intVal = '2'">Talk To</div>
+					<div id = "use" class = 'unselectable intButton' onmouseover = "this.style.color = '#ff00ff'" onmouseout = "this.style.color = '#800080'" onclick = "intVal = '3'">Use</div>
+					<div id = 'inv0' class = 'invBlock'>
+						
+					</div>
+					<div id = 'inv1' class = 'invBlock'></div>
+					<div id = 'inv2' class = 'invBlock'></div>
+					<div id = 'inv3' class = 'invBlock'></div>
+					<div id = 'inv4' class = 'invBlock'></div>
+					<div id = 'inv5' class = 'invBlock'></div>
+					<div id = 'inv6' class = 'invBlock'></div>
+					<div id = 'inv7' class = 'invBlock'></div>
+				</div>
+		</div>
+			<script>
+			container = document.getElementById('canvas');
+			interaction = document.getElementById('interaction');
+			onscreenText = document.getElementById('onscreenText');
+			HUDPanel = document.getElementById('HUD');
+			//*document.body.appendChild(container);
+
+			var scene = new THREE.Scene();
+			var scene2 = new THREE.Scene();
+			var convoScene = new THREE.Scene();
+			var loader = new THREE.JSONLoader();
+			var raycaster = new THREE.Raycaster();
+			var mouse = new THREE.Vector2();
+			var mouse3d = new THREE.Vector3();
+			var clickLoc = new THREE.Vector3();
+			var endPoint = new THREE.Vector3();
+			var lastFrameTime = 0;
+			var maxFrameTime = 0.03;
+			var elapsedTime = 0;
+			var navMesh;
+			var mouseMoveVal = 1;
+			var loggedElement;
+			var scummConvo1;
+			var arrayTarget = "";
+			var walkCycFr = 1;
+			var hudElements = [
+				document.getElementById('interaction'),
+				document.getElementById('walkTo'),
+				document.getElementById('lookAt'),
+				document.getElementById('talkTo'),
+				document.getElementById('use'),
+				document.getElementById('inv0'),
+				document.getElementById('inv1'),
+				document.getElementById('inv2'),
+				document.getElementById('inv3'),
+				document.getElementById('inv4'),
+				document.getElementById('inv5'),
+				document.getElementById('inv6'),
+				document.getElementById('inv7')
+			];
+			var toAdd = document.getElementById('HUD');
+			convoText = document.getElementById('convoText');
+			var onscreenTextVec = new THREE.Vector3();
+				onscreenTextVec.set(0, 0, 0);
+			var pathLines;
+			var convoLoop = 0;
+			var calculatedPath = null;
+			var tempPos1 = new THREE.Vector3(0, 3, 10);
+			var tempPos2 = new THREE.Vector3(-5, 5, 10);
+			var closestPoint = new THREE.Mesh(
+				new THREE.SphereGeometry(1, 25, 25),
+				new THREE.MeshBasicMaterial({color: 0x000000})
+				);
+			closestPoint.visible = true;
+			var sphereThingGeo = new THREE.SphereGeometry(1, 25, 25);
+			var sphereThingMat = new THREE.MeshBasicMaterial(0x99ff99);
+			var sphereThing = new THREE.Mesh(sphereThingGeo, sphereThingMat);
+			var walking = false;
+			var intVal = 0;
+			var intType = ["Walk To", "Look At", "Talk To", "Use"];
+			var invArray = [
+				document.getElementById('inv0'),
+				document.getElementById('inv1'),
+				document.getElementById('inv2'),
+				document.getElementById('inv3'),
+				document.getElementById('inv4'),
+				document.getElementById('inv5'),
+				document.getElementById('inv6'),
+				document.getElementById('inv7')
+			];
+
+			invArray[0].onmouseover = function(){
+				if(invArray[0].rollOverName !== undefined){
+					document.getElementById('interaction').innerHTML = intType[intVal] + ": " + invArray[0].rollOverName;
+				}
+			}
+			invArray[0].onclick = function(){
+				if(intVal == 0){
+					onscreenText.innerHTML = "But I'm holding it.";
+					textTimer();
+				}
+				else if(intVal == 1){
+					onscreenText.innerHTML = invArray[0].lookText;
+					textTimer();
+				}
+				else if(intVal == 2){
+					onscreenText.innerHTML = "I can't talk to this";
+					textTimer();
+				}
+			}
+			console.log(invArray);
+			
+
+
+			//*LIGHTS*//
+				var ambientLight = new THREE.AmbientLight(0x404040);
+				var ambientLight2 = new THREE.AmbientLight(0x595959);
+
+				var convoLight2 = new THREE.PointLight(0xff0000, 0.25, 150);
+				var convoLight3 = new THREE.PointLight(0x0000cc, 0.25, 150);
+
+				var directionalLight = new THREE.DirectionalLight(0xffff99, 0.2);
+					directionalLight.position.set(0, 1, 2);
+
+				var anchorLight1 = new THREE.PointLight(0xff9933, 1, 60, 2);
+					anchorLight1.position.set(-25.5, 32, 15);
+					anchorLight1Helper = new THREE.PointLightHelper(anchorLight1, 5);
+
+				var anchorLight3 = new THREE.PointLight(0xffff00, 1, 60, 2);
+					anchorLight3.position.set(-25.5, 27, 15);
+					anchorLight3Helper = new THREE.PointLightHelper(anchorLight3, 5);
+
+				var wheelLight1 = new THREE.PointLight(0xff9933, 0.5, 50, 2);
+					wheelLight1.position.set(12, 29, 15);
+					wheelLight1Helper = new THREE.PointLightHelper(wheelLight1, 5);
+
+				var wheelLight4 = new THREE.PointLight(0xff9933, 0.5, 50, 2);
+					wheelLight4.position.set(32, 29, 15);
+					wheelLight4Helper = new THREE.PointLightHelper(wheelLight4, 5);
+
+				var wheelLight8 = new THREE.PointLight(0xffff00, 0.65, 50, 2);
+					wheelLight8.position.set(21.5, 29, 23);
+					wheelLight8Helper = new THREE.PointLightHelper(wheelLight8, 5);
+
+				var fireLight1 = new THREE.PointLight(0xff0000, 1, 30, 2);
+					fireLight1.position.set (53, 4, -30);
+					fireLight1Helper = new THREE.PointLightHelper(fireLight1, 5);
+
+				var fireLight3 = new THREE.PointLight(0xff9933, 1, 70, 2);
+					fireLight3.position.set (42, 10, -12);
+					fireLight3Helper = new THREE.PointLightHelper(fireLight3, 5);
+
+				var extLight1 = new THREE.SpotLight(0x6666ff, 0.75, 150, 0.75, 0.5, 0.1);
+					extLight1.position.set(-100, 40, 15);
+					extLight1.castShadow = true;
+					extLight1Helper = new THREE.SpotLightHelper(extLight1);
+
+				var extLight2 = new THREE.SpotLight(0x6666ff, 0.75, 150, 0.75, 0.5, 0.1);
+					extLight2.position.set(0, 40, -80);
+					extLight2.castShadow = true;
+					extLight2Helper = new THREE.SpotLightHelper(extLight2);
+
+				var extLight3 = new THREE.SpotLight(0x6666ff, 0.25, 150, 0.75, 0.5, 0.1);
+					extLight3.position.set(100, 40, 80);
+					extLight3.castShadow = true;
+					extLight3Helper = new THREE.SpotLightHelper(extLight3);
+
+				var convoLight1 = new THREE.SpotLight(0xffffcc);
+					convoLight1.castShadow = true;
+
+				var hemiLight = new THREE.HemisphereLight(0xfeffc7, 1);
+
+				var planeGeo = new THREE.PlaneGeometry(15, 15);
+				var planeMat = new THREE.MeshLambertMaterial({color: 0xffffff, side: THREE.DoubleSide});
+				var plane = new THREE.Mesh(planeGeo, planeMat);
+					plane.receiveShadow = true;
+
+			//*CAMERA - RENDERER*//
+				var camera = new THREE.PerspectiveCamera(10, 960 / 540, 0.1, 1000);
+				var convoCamera = new THREE.PerspectiveCamera(45, 960 / 540, 1, 1000);
+
+
+					camera.position.x = 0;
+					camera.position.y = 45;
+					camera.position.z = 225;
+
+					camera.setLens(110);
+					camera.zoom = 1;
+					camera.updateProjectionMatrix();
+
+				var renderer = new THREE.WebGLRenderer();
+						renderer.setSize(960, 540);
+						renderer.setClearColor(0x5a7bb7);
+
+						renderer.shadowMap.enabled = true;
+						renderer.shadowMapSoft = true;
+						renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+						renderer.shadowCameraNear = 1;
+						renderer.shadowCameraFar = 100;
+						renderer.shadowCameraFov = 50;
+
+				var initialDir = new THREE.Vector3(0, 0, 0);
+				
+
+				
+				//*MODELS - OBJECTS*//
+				var guybrushGroup = new THREE.Object3D();
+				var guybrushFrame1 = null;
+				var guybrushFrame2 = null;
+				var scummBar1 = null;
+				var fireGroup = new THREE.Group();
+
+				loadModels();
+
+
+			
+			function sceneAdd(){
+				//*OBJECTS*//
+				scene.add(guybrushGroup);
+				walkFrames = [
+					guybrushGroup.children[0],
+					guybrushGroup.children[1],
+					guybrushGroup.children[0],
+					guybrushGroup.children[2],
+				];
+				scene.add(scummBar1);
+				scene.add(scummBarPirate01_head);
+				scene.add(scummBarPirate01_body);
+				scene.add(scummBarPirate02);
+				scene.add(scummBarPirate03_head);
+				scene.add(scummBarPirate03_body);
+				scene.add(scummBarPirate04_head);
+				scene.add(scummBarPirate04_body);
+				scene.add(scummBarPirate05);
+				scene.add(scummBarPirate06);
+				scene.add(scummBarPirate07_head);
+				scene.add(scummBarPirate07_body);
+				scene.add(scummBarPirate08_head);
+				scene.add(scummBarPirate08_body);
+				scene.add(scummBarPirate09_head);
+				scene.add(scummBarPirate09_body);
+				scene.add(scummBarPirate10_head);
+				scene.add(scummBarPirate10_body);
+				scene.add(scummBarPirate11);
+				scene.add(scummBarPirate12);
+				scene.add(scummBarPirate13_head);
+				scene.add(scummBarPirate13_body);
+				scene.add(scummBarPirateKing01_head);
+				scene.add(scummBarPirateKing01_body);
+				scene.add(scummBarPirateKing01_drinkArm);
+				scene.add(scummBarPirateKing02_head);
+				scene.add(scummBarPirateKing02_body);
+				scene.add(scummBarPirateKing02_drinkArm);
+				scene.add(scummBarPirateKing03_head);
+				scene.add(scummBarPirateKing03_body);
+				scene.add(scummBarPirateKing03_drinkArm);
+				scene.add(scummBarDog_wBone_head);
+				scene.add(scummBarDog_wBone_body);
+				scene.add(scummBarLady01_head);
+				scene.add(scummBarLady01_body);
+				scene.add(scummBarLady02_head);
+				scene.add(scummBarLady02_body);
+				scene.add(fireGroup);
+				scene.add(paperObject);
+
+				scene.add(navMesh);
+
+				scene2.add(closestPoint);
+
+				convoScene.add(scummConvo1);
+				
+
+
+				//*CAMERAS*//
+				scene.add(camera);
+				camera.lookAt(new THREE.Vector3(-34, 15, 0));
+				convoScene.add(convoCamera);
+
+				//*LIGHTS*//
+				scene.add(ambientLight);
+				scene.add(directionalLight)
+				scene.add(anchorLight1);
+				scene.add(anchorLight3);
+				scene.add(extLight1);
+				scene.add(extLight2);
+				scene.add(extLight3);
+				scene.add(wheelLight1);
+				scene.add(wheelLight4);
+				scene.add(wheelLight8);
+				scene.add(fireLight1);
+				scene.add(fireLight3);
+
+				
+				convoScene.add(ambientLight2);
+				convoScene.add(convoLight2);
+				convoScene.add(convoLight3);
+				convoScene.add(convoLight1);
+
+
+				//*POSITIONING*//
+				convoLight1.position.set(0, 5, 50);
+				convoLight1.lookAt(0, scummConvo1HeightHalf, 0);
+				convoLight2.position.set(0, 15, 50);
+				convoLight3.position.set(-50, -15, 50);
+				convoCamera.position.set(0, scummConvo1HeightHalf, 30);
+
+				scummBar1.position.set(0, 0, 0);
+				navMesh.position.set(0, 0, 0);
+				closestPoint.position.set(0, 5, 0);
+
+				scummBarPirate01_body.position.set(-57, 1, -7);
+				scummBarPirate01_body.rotation.set(0, 1.3, 0);
+				scummBarPirate01_head.position.set(-59.5, 10, -7);
+				scummBarPirate01_head.rotation.set(0, 1.3, 0);
+
+				scummBarPirate02.position.set(-32, 1, -37);
+
+				scummBarPirate03_head.position.set(-29, 10, 21);
+				scummBarPirate03_head.rotation.set(0, 0.7, 0);
+				scummBarPirate03_body.position.set(-27.5, 1, 22.5);
+				scummBarPirate03_body.rotation.set(0, 0.7, 0);
+
+				scummBarPirate04_head.position.set(-11, 10, -4);
+				scummBarPirate04_head.rotation.set(0, -0.8, 0);
+				scummBarPirate04_body.position.set(-12, 1, -3);
+				scummBarPirate04_body.rotation.set(0, -0.8, 0);
+
+
+				scummBarPirate05.position.set(-46.5, 3, 33);
+				scummBarPirate05.rotation.set(0, 0.75, 0);
+
+				scummBarPirate06.position.set(-7, 1, -25);
+				scummBarPirate06.rotation.set(0, 3.2, 0);
+
+				
+				scummBarPirate07_head.position.set(-47, 10, -15);
+				scummBarPirate07_head.rotation.set(0, -0.25, 0)
+				scummBarPirate07_body.position.set(-47, 1, -15);
+				scummBarPirate07_body.rotation.set(0, -0.25, 0)
+				
+				scummBarPirate08_body.position.set(-42, 1, -3);
+				scummBarPirate08_body.rotation.set(0, -2.0, 0);
+				scummBarPirate08_head.position.set(-42, 10, -3);
+				scummBarPirate08_head.rotation.set(0, -2.0, 0);
+				
+				scummBarPirate09_head.position.set(-23, 10, 43);
+				scummBarPirate09_head.rotation.set(0, 2.4, 0);
+				scummBarPirate09_body.position.set(-22, 1, 42);
+				scummBarPirate09_body.rotation.set(0, 2.4, 0);
+
+				scummBarPirate10_head.position.set(-15, 10, 28);		
+				scummBarPirate10_head.rotation.set(0, -.8, 0);
+				scummBarPirate10_body.position.set(-15, 1, 28);
+				scummBarPirate10_body.rotation.set(0, -.8, 0);
+
+				scummBarPirate11.position.set(-11, 1, -40);
+				scummBarPirate11.rotation.set(0, 0, 0);
+
+				scummBarPirate12.position.set(-25.5, 21, 11);
+				scummBarPirate12.rotation.set(0, 0, 0);
+
+				scummBarPirate13_body.position.set(-55, 1, 33);
+				scummBarPirate13_body.rotation.set(0, 2.5, 0);
+				scummBarPirate13_head.position.set(-59, 2.5, 38);
+				scummBarPirate13_head.rotation.set(0, 2.5, 0.5);
+
+				scummBarDog_wBone_head.position.set(-2, 5, -3);
+				scummBarDog_wBone_head.rotation.set(0, -0.5, 0);
+				scummBarDog_wBone_body.position.set(-1, 1, -5);
+				scummBarDog_wBone_body.rotation.set(0, -0.5, 0);
+
+				scummBarPirateKing01_head.position.set(11, 9, -9.5);
+				scummBarPirateKing01_head.rotation.set(0, 0, 0);
+				scummBarPirateKing01_body.position.set(12, 1, -10);
+				scummBarPirateKing01_body.rotation.set(0, 0, 0);
+				scummBarPirateKing01_drinkArm.position.set(7.5, 9, -11);
+				scummBarPirateKing01_drinkArm.rotation.set(0, 0, 0);
+
+				scummBarPirateKing02_head.position.set(22, 10, -10.5);
+				scummBarPirateKing02_head.rotation.set(0, 0, 0);
+				scummBarPirateKing02_body.position.set(21, 1, -10);
+				scummBarPirateKing02_body.rotation.set(0, 0, 0);
+				scummBarPirateKing02_drinkArm.position.set(24, 9, -10);
+				scummBarPirateKing02_drinkArm.rotation.set(0, 0, 0);
+
+				scummBarPirateKing03_head.position.set(34, 10, -10.5);
+				scummBarPirateKing03_head.rotation.set(0, 0, 0);
+				scummBarPirateKing03_body.position.set(33, 1, -10);
+				scummBarPirateKing03_body.rotation.set(0, 0, 0);
+				scummBarPirateKing03_drinkArm.position.set(37.5, 9, -10);
+				scummBarPirateKing03_drinkArm.rotation.set(0, 0, 0);
+
+				scummBarLady01_head.position.set(-19.5, 8, -18.5);
+				scummBarLady01_head.rotation.set(0, 0.3, 0);
+				scummBarLady01_body.position.set(-19, 1, -17);
+				scummBarLady01_body.rotation.set(0, 0.3, 0);
+
+				scummBarLady02_head.position.set(-20.5, 8, 21.5);
+				scummBarLady02_head.rotation.set(0, 0.5, 0);
+				scummBarLady02_body.position.set(-19, 1, 22);
+				scummBarLady02_body.rotation.set(0, 0.5, 0);
+
+				paperObject.position.set(17, 6, 0);
+
+				fireGroup.position.set(50.5, 2, -28);
+				fireGroup.rotation.set(0, 0.3, 0);
+
+				guybrushGroup.position.set(-59.65, 1, 7.89);
+				container.appendChild(renderer.domElement);
+
+				animate();
+				render();
+			};
+
+			document.getElementById('canvas').onmousemove = mouseMove;
+			document.getElementById('canvas').onclick = populateClick;
+
+			function mouseMove(){
+				if (mouseMoveVal == 1){
+					mouse.x = (event.layerX / renderer.domElement.clientWidth) * 2 - 1;
+					mouse.y = - (event.layerY / renderer.domElement.clientHeight) * 2 + 1;
+
+					raycaster.setFromCamera(mouse, camera);
+					intersects = raycaster.intersectObjects(scene.children);
+					mouse3d = (intersects[0].point);
+					currentElementName = intersects[0].object.name;
+					currentElementScreenName = intersects[0].object.screenName;
+					currentElementObj = intersects[0].object;
+					document.getElementById('interaction').innerHTML = intType[intVal] + ": " + currentElementScreenName;
+					
+					sphereThing.position.copy(mouse3d);
+				}
+			
+			};
+
+			function populateClick(){
+				loggedElement = currentElementObj;
+				console.log(loggedElement);
+				clickLoc.x = mouse3d.x;
+				clickLoc.y = guybrushGroup.position.y;
+				clickLoc.z = mouse3d.z;
+				guybrushGroup.lookAt(clickLoc);
+				findEndpoint();
+				console.log(endPoint);
+			}
+
+			//*Determine Navmesh Endpoint*//
+			function findEndpoint(){
+				var p = clickLoc;
+				var geom = navMesh.geometry;
+				var closestDistance = 1e9;
+				var closestFace = geom.faces.forEach(function (face){
+					var normal = face.normal;
+					var va = geom.vertices[face.a];
+					var vb = geom.vertices[face.b];
+					var vc = geom.vertices[face.c];
+					var pd = normal.dot(p.clone().sub(va));
+
+					var proj = p.clone().sub(normal.clone().multiplyScalar(pd));
+					var cp = closestPointToTriangle(proj, va, vb, vc);
+
+					if(cp.distanceTo(p) < closestDistance){
+						closestDistance = cp.distanceTo(p);
+						closestPoint.position.copy(cp);
+						
+					}
+					if(loggedElement.epOverride == 1){
+						endPoint = loggedElement.endPoint;
+					}
+					else{
+						endPoint = closestPoint.position;
+					}
+				});
+				generatePath();
+			}
+
+
+
+			function generatePath(){
+
+				calculatedPath = patrol.findPath(guybrushGroup.position, endPoint, 'navMesh', playerNavMeshGroup);
+				if (calculatedPath && calculatedPath.length){
+					if(walking == false){
+						TweenLite.delayedCall(0.01, guybrushWalkLoop);
+					}
+					if (pathLines){
+						scene.remove(pathLines);
+					}
+					var material = new THREE.LineBasicMaterial({
+						color: 0x0000ff,
+						linewidth: 2
+					});
+					var geometry = new THREE.Geometry();
+					geometry.vertices.push(guybrushGroup.position);
+
+					for (var i = 0; i < calculatedPath.length; i++){
+						geometry.vertices.push(calculatedPath[i].clone().add(new THREE.Vector3(0, 0.2, 0)));
+					}
+					pathLines = new THREE.Line(geometry, material);
+					pathLines.visible = false;
+					scene.add(pathLines);
+
+					var debugPath = [guybrushGroup.position].concat(calculatedPath);
+					for (var i = 0; i < debugPath.length - 1; i++){
+						geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+						var material = new THREE.MeshBasicMaterial({color: 0x00ffff});
+						var node = new THREE.Mesh(geometry, material);
+						node.visible = false;
+						node.position.copy(debugPath[i]);
+						pathLines.add(node);
+					}
+				}
+			}
+
+			function closestPointToTriangle(p, a, b, c){
+				if(pointInTriangle(p, a, b, c)) return p
+					return closestToSides(p, [[a, b], [b, c], [a, c]])
+			}
+
+			function pointInTriangle(p, a, b, c){
+				return sameSide(p, a, b, c) && sameSide(p, b, a, c) && sameSide(p, c, a, b);
+			}
+
+			function sameSide(p1, p2, a, b){
+				var ab = b.clone().sub(a);
+				var ap1 = p1.clone().sub(a);
+				var ap2 = p2.clone().sub(a);
+				var cp1 = new THREE.Vector3().crossVectors(ab, ap1);
+				var cp2 = new THREE.Vector3().crossVectors(ab, ap2);
+				return cp1.dot(cp2) >= 0;
+			}
+
+			function closestToSides(p, sides){
+				var minDist = 1e9;
+				var ret
+				sides.forEach(function (side){
+					var ct = closestToSegment(p, side[0], side[1]);
+					var dist = ct.distanceTo(p);
+					if (dist < minDist){
+						minDist = dist;
+						ret = ct;
+					}
+				})
+				return ret;
+			}
+
+			function closestToSegment(p, a, b){
+				var ab = b.clone().sub(a);
+				var nab = ab.clone().normalize();
+				var n = nab.dot(p.clone().sub(a));
+				if (n < 0) return a;
+				if (n > ab.length()) return b;
+				return a.clone().add(nab.multiplyScalar(n));
+			}
+
+			function tick(dTime){
+
+				if(!navMesh){
+					return;
+				}
+				var speed = 20;
+				var targetPosition;
+				if (calculatedPath && calculatedPath.length){
+					walking = true;
+					targetPosition = calculatedPath[0];
+					guybrushGroup.lookAt(targetPosition);
+					var vel = targetPosition.clone().sub(guybrushGroup.position);
+					if(vel.lengthSq() > 0.3 * 0.3){
+						vel.normalize();
+						guybrushGroup.position.add(vel.multiplyScalar(dTime * speed));
+					}
+					else {
+						calculatedPath.shift();
+						if(calculatedPath.length == 0){
+							walking = false;
+							endLook = new THREE.Vector3(loggedElement.position.x, guybrushGroup.position.y, loggedElement.position.z);
+							if (intVal == 1 && loggedElement.lookYN !== false){
+								guybrushGroup.lookAt(endLook);
+								onscreenText.innerHTML = loggedElement.lookText;
+								textTimer();
+							}
+							if(intVal == 2 && loggedElement.talkYesNo == 1){
+								guybrushGroup.lookAt(endLook);
+								mouseMoveVal = 0;
+								convoAnimIn();
+
+							}
+							if(intVal == 3 && loggedElement.item == true){
+								guybrushGroup.lookAt(endLook);
+								var img = document.createElement('img');
+								img.src = loggedElement.invImage;
+								invArray[0].appendChild(img);
+								invArray[0].rollOverName = loggedElement.screenName;
+								invArray[0].lookText = loggedElement.invLookText;
+								scene.remove(loggedElement);
+							}
+						intVal = 0;
+						}
+					}
+				}
+			}
+
+			function textTimer(){
+				TweenMax.delayedCall(3.5, textClear);
+			}
+
+			function textClear(){
+				onscreenText.innerHTML = "";
+				convoText.innerHTML - "";
+			}
+
+			function guybrushWalkLoop(){
+				if(walking == true){
+					if(walkCycFr < [walkFrames.length - 1]){
+						for(i = 0; i < walkFrames.length; i ++){
+							walkFrames[i].visible = false;
+						}
+						walkFrames[walkCycFr].visible = true;
+						walkCycFr++;
+						if(walking == true){
+							TweenLite.delayedCall(0.15, guybrushWalkLoop);
+						}
+						else{
+							for(i = 0; i < walkFrames.length; i++){
+							walkFrames[i].visible = false;
+							walkCycFr = 1;
+							walkFrames[0].visible = true;
+							}
+						}
+					}
+					else if(walkCycFr == [walkFrames.length - 1]){
+						for(i = 0; i < walkFrames.length; i++){
+							walkFrames[i].visible = false;
+						}
+						walkFrames[walkCycFr].visible = true;
+						walkCycFr = 0;
+						if(walking == true){
+							TweenLite.delayedCall(0.15, guybrushWalkLoop);
+						}
+						else{
+							for(i = 0; i < walkFrames.length; i++){
+							walkFrames[i].visible = false;
+							walkCycFr = 1;
+							walkFrames[0].visible = true;
+							}
+						}
+					}
+				}
+				else{
+					for(i = 0; i < walkFrames.length; i++){
+						walkFrames[i].visible = false;
+						walkCycFr = 1;
+					}
+					walkFrames[0].visible = true;
+				}
+			}
+
+			function convoAnimIn(){
+				toAdd.innerHTML = '';
+				currentConvo = loggedElement.convoScreen;
+				convoIn = new TimelineLite();
+				convoIn.to(currentConvo.position, 2, {y: 0.5, ease: Power3.easeOut, onComplete: convoAnimLoop})
+
+			}
+
+			function convoAnimLoop(){
+				convoTree();
+				convoUpDown = new TimelineMax({repeat: -1});
+				convoRot = new TimelineMax({repeat: -1});
+
+				convoUpDown.to(currentConvo.position, 3, {y:-0.5, ease: Power2.easeInOut})
+					.to(currentConvo.position, 3, {y: 0.5, ease: Power2.easeInOut})
+
+				convoRot.to(currentConvo.rotation, 3.5, {y: 0.075, ease: Power1.easeInOut})
+						.to(currentConvo.rotation, 3.5, {y: -0.075, ease: Power1.easeInOut})
+			}
+
+			function convoTree(){
+				convoPos = 0;
+				convoArray = loggedElement.convoArray;
+				convoLoop = 1;
+				convoTimer();
+			}
+
+			function convoTimer(){
+				if (convoArray[convoPos].t !== undefined){
+					convoTextTimer = (convoArray[convoPos].t.length) / 10;
+					if (convoTextTimer < 2){
+						convoTextTimer = 2;
+					}
+					convoTextTimerTL = new TimelineMax;
+					TweenMax.delayedCall(convoTextTimer, convoAdvance);
+				}
+				if (convoArray[convoPos].answers !== undefined){
+					numChoices = convoArray[convoPos].answers.length;
+					for (i = 0; i < numChoices; i++){
+						var newDiv = document.createElement('div');
+						newDiv.className = "dialogueOption";
+						newDiv.id = "option" + i;
+						newDiv.innerHTML = convoArray[convoPos].answers[i].option;
+						newDiv.optionNumber = i;
+						newDiv.arrayTarget = convoArray[convoPos].answers[i].next;
+						newDiv.onmouseover = function(){
+							this.style.color = "#ff00ff";
+						}
+						newDiv.onmouseout = function(){
+							this.style.color = "#800080";
+						}
+						newDiv.onclick = function(){
+							arrayTarget = this.arrayTarget;
+						}
+						toAdd.appendChild(newDiv);
+					}
+
+				}
+			}
+
+			function lightLoops(){
+				anchorLight1TL = new TimelineMax({repeat: -1});
+				anchorLight3TL = new TimelineMax({repeat: -1});
+				wheelLight1TL = new TimelineMax({repeat: -1});
+				wheelLight4TL = new TimelineMax({repeat: -1});
+				wheelLight8TL = new TimelineMax({repeat: -1});
+				fireLight1TL = new TimelineMax({repeat: -1});
+				fireLight3TL = new TimelineMax({repeat: -1});
+
+				anchorLight1TL.to(anchorLight1, [Math.random() + 0.5], {intensity: 0.8, distance: 50, ease: Power2.easeInOut, delay: [(Math.random() * 3) + 1]})
+					.to(anchorLight1, [Math.random() + 0.5], {intensity: 1, distance: 60, ease: Power2.easeInOut})
+
+				anchorLight3TL.to(anchorLight3, [Math.random() + 0.5], {intensity: 0.8, distance: 50, ease: Power2.easeInOut, delay: [(Math.random() * 3) + 1]})
+					.to(anchorLight3, [Math.random() + 0.5], {intensity: 1, distance: 60, ease: Power2.easeInOut})
+
+
+
+				wheelLight1TL.to(wheelLight1, [Math.random() + 0.5], {intensity: 0.3, distance: 40, ease: Power2.easeInOut, delay: [(Math.random() * 3) + 1]})
+					.to(wheelLight1, [Math.random() + 0.5], {intensity: 0.5, distance: 50, ease: Power2.easeInOut})
+
+				wheelLight4TL.to(wheelLight4, [Math.random() + 0.5], {intensity: 0.3, distance: 40, ease: Power2.easeInOut, delay: [(Math.random() * 3) + 1]})
+					.to(wheelLight4, [Math.random() + 0.5], {intensity: 0.5, distance: 50, ease: Power2.easeInOut})
+
+				wheelLight8TL.to(wheelLight8, [Math.random() + 0.5], {intensity: 0.4, distance: 40, ease: Power2.easeInOut, delay: [(Math.random() * 3) + 1]})
+					.to(wheelLight8, [Math.random() + 0.5], {intensity: 0.65, distance: 50, ease: Power2.easeInOut})
+
+
+
+				
+
+				fireLight3TL.to(fireLight3, [Math.random() + 0.1], {intensity: 0.8, distance: 60, ease: Power2.easeInOut, delay: [Math.random() * 2]})
+					.to(fireLight3, [Math.random() + 0.1], {intensity: 1, distance: 70, ease: Power2.easeInOut})
+			}
+
+
+
+			function fireLoop(){
+				fireArray = [
+					fireFrame1,
+					fireFrame2,
+					fireFrame3
+				]
+				curFrame = Math.floor((Math.random() * 3));
+				for(i = 0; i < fireArray.length; i++){
+					fireArray[i].visible = false;
+				}
+				fireArray[curFrame].visible = true;
+				TweenMax.delayedCall([Math.floor((Math.random() * 4) / 10) + 0.2] ,fireLoop);
+			};
+
+
+			function npcLoops(){
+
+			}
+
+			function convoAdvance(){
+				if(convoArray[convoPos].next !== undefined){
+					if(convoArray[convoPos].next == "EXIT"){
+						convoEnd();
+					}
+					else if(convoArray[convoPos].next !== "EXIT"){
+						for (i = 0; i < convoArray.length; i++){
+							cur = convoArray[i];
+							if (cur.label == convoArray[convoPos].next){
+								convoPos = i;
+								convoTimer();
+								break;
+							}
+						}
+					}
+				}
+		
+				else{
+					convoPos ++;
+					convoTimer();
+				}
+			}
+
+			function pirateLoop01(){
+				
+				function pirate01Anim(){
+					pirate01TL = new TimelineMax({repeat: 4});
+					pirate01TL.to(scummBarPirate01_head.position, 0.1, {y: 10.5, ease: Power2.easeInOut, delay: 0.05})
+								.to(scummBarPirate01_head.position, 0.1, {y: 10, ease: Power2.easeInOut})
+				}
+				function pirate07Anim(){
+					pirate07TL = new TimelineMax();
+					pirate07TL.staggerTo([scummBarPirate07_head.rotation, scummBarPirate07_body.rotation], 1, {y: "+=0.5", ease: Power2.easeInOut}, 0.5)
+								.to(scummBarPirate07_head.rotation, 0.75, {x: "+= 0.5", z: "-=0.15", ease: Power2.easeInOut, delay: 0.5})
+								.to(scummBarPirate07_head.rotation, 0.75, {x: "-= 0.5", z: "+=0.15", ease: Power2.easeInOut})
+								.staggerTo([scummBarPirate07_head.rotation, scummBarPirate07_body.rotation], 1, {y: "-=0.5", ease:Power2.easeInOut}, 0.5)
+				}
+				function pirate08Anim(){
+					pirate08TL = new TimelineMax();
+					pirate08TL.staggerTo([scummBarPirate08_head.rotation, scummBarPirate08_body.rotation], 1, {y: "-=0.5", ease: Power2.easeInOut}, 0.5)
+							.to(scummBarPirate08_head.rotation, 0.75, {x: "-= 0.6", z: "-=0.3", ease: Power2.easeInOut, delay: 0.5})
+							.to(scummBarPirate08_head.rotation, 0.75, {x: "+= 0.6", z: "+=0.3", ease: Power2.easeInOut})
+							.staggerTo([scummBarPirate08_head.rotation, scummBarPirate08_body.rotation], 1, {y: "+=0.5", ease:Power2.easeInOut}, 0.5)
+				}
+
+				TweenLite.delayedCall(0.5, pirate01Anim)
+				TweenLite.delayedCall(2.5, pirate01Anim)
+				TweenLite.delayedCall(4, pirate07Anim)
+				TweenLite.delayedCall(4, pirate08Anim)
+				TweenLite.delayedCall(8, pirateLoop01)
+								
+			}
+
+			function pirateLoop02(){
+				pirateLoop02TL = new TimelineMax({repeat: -1});
+				pirateLoop02TL.to(scummBarPirate13_head.rotation, 3, {z: "-=1", ease: Power1.easeInOut})
+								.to(scummBarPirate13_head.rotation, 3, {z: "+=1", ease: Power1.easeInOut})
+			};
+
+			function pirateLoop03(){
+				pirateLoop03TL = new TimelineMax({repeat: -1});
+				pirateLoop03TL.to(scummBarPirate09_head.rotation, 3, {y: "+=1", ease: Power1.easeInOut, delay: 2})
+								.to(scummBarPirate09_head.rotation, 3, {y: "-=1", ease: Power1.easeInOut, delay: 2})
+								.to(scummBarPirate09_head.rotation, 3, {y: "-=0.5", ease: Power1.easeInOut, delay: 2})
+								.to(scummBarPirate09_head.rotation, 3, {y: "+=0.5", ease: Power1.easeInOut, delay: 2})
+			}
+
+			function pirateLoop04(){
+				var ranDur1 = (Math.random() * 3);
+				pirateLoop04TL = new TimelineMax();
+				pirateLoop04TL.to(scummBarPirate03_head.position, 0.1, {y: "+=0.5", yoyo: true, repeat: 9, delay: ranDur1})
+				pirateLoop04TL.to(scummBarPirate10_head.position, 0.1, {y: "+=0.5", yoyo: true, repeat: 7, delay: ranDur1})
+				pirateLoop04TL.to(scummBarLady02_head.position, 0.1, {y: "+=0.5", yoyo: true, repeat: 5, delay: ranDur1, onComplete: pirateLoop04})
+			}
+
+			function pirateLoop05(){
+				var ranDur1 = (Math.random() * 5) + 2;
+				pirateLoop05TL = new TimelineMax();
+				pirateLoop05TL.to(scummBarPirate04_head.position, 0.1, {y: "+=0.5", yoyo: true, repeat: 7, delay: ranDur1})
+				pirateLoop05TL.to(scummBarLady01_head.position, 0.1, {y: "+=0.5", yoyo: true, repeat: 5, delay: ranDur1, onComplete: pirateLoop05})
+			}
+
+			function pirateKing01Loop(){
+				var ranDur1 = (Math.random() * 5) + 2;
+				pirateKing01LoopTL = new TimelineMax();
+				pirateKing01LoopTL.to(scummBarPirateKing01_head.rotation, 1, {y: "+=0.65", yoyo: true, repeat: 1, repeatDelay: 1, delay: ranDur1, ease: Power1.easeInOut})
+									.to(scummBarPirateKing01_drinkArm.rotation, 1, {x: "-=1", y: "+=0.5", yoyo: true, repeat: 1, repeatDelay: 1, ease: Power1.easeInOut}, "+=0.5")
+									.to(scummBarPirateKing01_head.rotation, 0.5, {x: "-=0.5", yoyo: true, repeat: 1, repeatDelay: 1, ease: Power1.easeInOut, onComplete: pirateKing01Loop}, "-=2.5")
+
+
+			}
+
+			function pirateKing02Loop(){
+				var ranDur1 = (Math.random() * 5) + 2;
+				pirateKing02LoopTL = new TimelineMax();
+				pirateKing02LoopTL.to(scummBarPirateKing02_head.rotation, 1, {y: "-=0.65", ease: Power1.easeInOut, delay: ranDur1})
+									.to(scummBarPirateKing02_head.rotation, 2, {y: "+=1.3", ease: Power1.easeInOut, delay: 0.5})
+									.to(scummBarPirateKing02_head.rotation, 1, {y: "-=0.65", ease: Power1.easeInOut, delay: 0.5})
+									.to(scummBarPirateKing02_drinkArm.rotation, 1, {x: "-=1", yoyo: true, repeat: 1, repeatDelay: 1, ease: Power1.easeInOut}, "+=0.5")
+									.to(scummBarPirateKing02_head.rotation, 0.5, {x: "-=0.5", yoyo: true, repeat: 1, repeatDelay: 1, ease: Power1.eastInOut, onComplete: pirateKing02Loop}, "-=2.5")
+			}
+
+			function pirateKing03Loop(){
+				var ranDur1 = (Math.random() * 5) + 2;
+				pirateKing03LoopTL = new TimelineMax();
+				pirateKing03LoopTL.to(scummBarPirateKing03_head.rotation, 1, {y: "-=0.65", yoyo: true, repeat: 1, repeatDelay: 1, delay: ranDur1, ease: Power1.easeInOut})
+									.to(scummBarPirateKing03_drinkArm.rotation, 1, {x: "-=1", y: "-=0.75", yoyo: true, repeat: 1, repeatDelay: 1, ease: Power1.easeInOut}, "+=0.5")
+									.to(scummBarPirateKing03_head.rotation, 0.5, {x: "-=0.5", yoyo: true, repeat: 1, repeatDelay: 1, ease: Power1.easeInOut, onComplete: pirateKing03Loop}, "-=2.5")
+			}
+
+			function dogLoop(){
+				var ranDur1 = (Math.random() * 3) + 1; 
+				dogLoopTL = new TimelineMax();
+				dogLoopTL.to(scummBarDog_wBone_head.rotation, 0.5, {z: "-=0.5", ease: Power2.easeInOut, yoyo: true, repeat: 1, repeatDelay: ranDur1, delay: ranDur1, onComplete: dogLoop})
+			}
+
+			function anchorLoop(){
+				anchorAnimTL = new TimelineMax({repeat: -1});
+				anchorAnimTL.to(scummBarPirate12.rotation, 1.5, {y: 359 * Math.PI / 180, ease: Power1.easeInOut})
+			};
+
+			function convoEnd(){
+				convoUpDown.stop();
+				convoRot.stop();
+				convoLoop = 0;
+				convoText.innerHTML = "";
+				mouseMoveVal = 1;
+
+				convoAwayTL = new TimelineMax;
+				convoAwayTL.add("end")
+					.to(currentConvo.rotation, 1, {y: -0.075, ease: Power3.easeIn}, "end")
+					.to(currentConvo.position, 1, {y: -30, ease: Power3.easeIn, onComplete: returnHUDElements}, "end")
+					
+
+			}
+
+			function animate(){
+				//*mouse.x = (event.layerX / renderer.domElement.clientWidth) * 2 - 1;
+				//*mouse.y = - (event.layerY / renderer.domElement.clientHeight) * 2 + 1;
+				var textPos = guybrushGroup.position.clone();
+				textPos.project(camera);
+				textPos.x = (textPos.x * (container.clientWidth / 2)) + (container.clientWidth);
+				textPos.y = (textPos.y * (container.clientHeight / 2) + (container.clientHeight));
+				textPos.z = 0;
+				onscreenText.style.left = (textPos.x - 600) + "px";
+				onscreenText.style.bottom = (textPos.y + 50)+ "px";
+				var currTime = window.performance.now();
+				var delta = (currTime - lastFrameTime) / 1000;
+				var dTime = Math.min(delta, maxFrameTime);
+				elapsedTime += delta;
+				lastFrameTime = currTime;
+				tick(dTime);
+				if(guybrushGroup.position.x < 34 && guybrushGroup.position.x > -34){
+					camera.lookAt(new THREE.Vector3(guybrushGroup.position.x, 15, 0));	
+				}
+				
+				requestAnimationFrame( animate );
+				if (convoLoop == 1){
+					if(arrayTarget !== ""){
+						for (i = 0; i < convoArray.length; i++){
+							cur = convoArray[i];
+							if (cur.label == arrayTarget){
+								convoPos = i;
+								toAdd.innerHTML = "";
+								arrayTarget = "";
+								convoTimer();
+							}
+						}
+					}
+					if(convoArray[convoPos].t !== undefined){
+						convoText.innerHTML = convoArray[convoPos].t;
+					}
+					else if(convoArray[convoPos].t == undefined){
+						convoText.innerHTML = "";
+					}
+					if (convoArray[convoPos].s != "guybrush"){
+						convoText.style.left = "10%";
+						convoText.style.right = "";
+						convoText.style.color = "#ff3300";
+					}
+					else if(convoArray[convoPos].s == "guybrush"){
+						convoText.style.left = "";
+						convoText.style.right = "10%";
+						convoText.style.color = "#ffffff";
+					}
+				}
+				render();	
+			}
+
+			function returnHUDElements(){
+				for(i = 0; i < hudElements.length; i++){
+					toAdd.appendChild(hudElements[i]);
+				}
+			}
+
+			function render(){
+				interaction = (intType[intVal] + "fart");
+				renderer.autoClear = false;
+				renderer.render(scene, camera);
+				renderer.render(scene2, camera);
+				renderer.render(convoScene, convoCamera);
+			}
+
+			container.addEventListener('mousemove', mouseMove, false);
+
+			
+			
+		</script>
+	</body>
+</html>
