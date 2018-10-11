@@ -4,7 +4,7 @@ function loadModels(){
 
 //*Load Models*//
 function loadGuybrushIdleStill(){
-loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_guybrush/guybrushIdleStill.js',
+loader.load('../_models/_guybrush/guybrushIdleStill.js',
 		function (geometry, materials){
 			var material = materials[0];
 			var faceMaterial = new THREE.MultiMaterial(materials);
@@ -20,7 +20,7 @@ loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_guybrush/gu
 };
 
 function loadGuybrushWalkFrame01(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_guybrush/guybrushWalk_frame1.js',
+	loader.load('../_models/_guybrush/guybrushWalk_frame1.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -34,7 +34,7 @@ function loadGuybrushWalkFrame01(){
 	);
 };
 function loadGuybrushWalkFrame02(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_guybrush/guybrushWalk_frame2.js',
+	loader.load('../_models/_guybrush/guybrushWalk_frame2.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -48,7 +48,7 @@ function loadGuybrushWalkFrame02(){
 	);
 };
 function loadScummBar1(){
-loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/scummBar1.js',
+loader.load('../_models/_scummBar/scummBar1.js',
 		function(geometry, materials){
 			var material = materials[0];
 			var faceMaterial = new THREE.MultiMaterial(materials);
@@ -62,7 +62,7 @@ loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/sc
 	);
 };
 function loadScummConvo1(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_convos/scummConvo1.js',
+	loader.load('../_models/_scummBar/_convos/scummConvo1.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -80,7 +80,7 @@ function loadScummConvo1(){
 	);
 };
 function loadScummBarPirate01_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate01_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate01_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -102,7 +102,7 @@ function loadScummBarPirate01_head(){
 	);
 };
 function loadScummBarPirate01_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate01_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate01_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -124,7 +124,7 @@ function loadScummBarPirate01_body(){
 	);
 };
 function loadScummBarPirate02(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate02.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate02.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -142,7 +142,7 @@ function loadScummBarPirate02(){
 };
 
 function loadScummBarPirate03_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate03_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate03_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -159,7 +159,7 @@ function loadScummBarPirate03_head(){
 	);
 };
 function loadScummBarPirate03_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate03_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate03_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -177,7 +177,7 @@ function loadScummBarPirate03_body(){
 };
 
 function loadScummBarPirate04_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate04_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate04_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -194,7 +194,7 @@ function loadScummBarPirate04_head(){
 	);
 };
 function loadScummBarPirate04_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate04_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate04_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -211,7 +211,7 @@ function loadScummBarPirate04_body(){
 	);
 };
 function loadScummBarPirate05(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate05.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate05.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -228,7 +228,7 @@ function loadScummBarPirate05(){
 	);
 };
 function loadScummBarPirate06(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate06.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate06.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -245,7 +245,7 @@ function loadScummBarPirate06(){
 	);
 };
 function loadScummBarPirate07_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate07_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate07_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -262,7 +262,7 @@ function loadScummBarPirate07_head(){
 	);
 };
 function loadScummBarPirate07_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate07_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate07_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -279,7 +279,7 @@ function loadScummBarPirate07_body(){
 	);
 };
 function loadScummBarPirate08_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate08_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate08_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -296,7 +296,7 @@ function loadScummBarPirate08_head(){
 	);
 };
 function loadScummBarPirate08_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate08_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate08_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -313,7 +313,7 @@ function loadScummBarPirate08_body(){
 	);
 };
 function loadScummBarPirate09_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate09_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate09_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -330,7 +330,7 @@ function loadScummBarPirate09_head(){
 	);
 };
 function loadScummBarPirate09_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate09_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate09_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -347,7 +347,7 @@ function loadScummBarPirate09_body(){
 	);
 };
 function loadScummBarPirate10_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate10_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate10_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -364,7 +364,7 @@ function loadScummBarPirate10_head(){
 	);
 };
 function loadScummBarPirate10_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate10_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate10_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -381,7 +381,7 @@ function loadScummBarPirate10_body(){
 	);
 };
 function loadScummBarPirate11(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate11.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate11.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -398,7 +398,7 @@ function loadScummBarPirate11(){
 	);
 };
 function loadScummBarPirate12(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarAnchorPirate.js',
+	loader.load('../_models/_scummBar/_chars/scummBarAnchorPirate.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -416,7 +416,7 @@ function loadScummBarPirate12(){
 	);
 };
 function loadScummBarPirate13_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate13_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate13_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				geometry.translate(0, -1.5, 0);
@@ -434,7 +434,7 @@ function loadScummBarPirate13_head(){
 	);
 };
 function loadScummBarPirate13_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirate13_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirate13_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -451,7 +451,7 @@ function loadScummBarPirate13_body(){
 	);
 };
 function loadScummBarLady01_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarLady01_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarLady01_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -468,7 +468,7 @@ function loadScummBarLady01_head(){
 	);
 };
 function loadScummBarLady01_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarLady01_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarLady01_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -486,7 +486,7 @@ function loadScummBarLady01_body(){
 };
 
 function loadScummBarLady02_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarLady02_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarLady02_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -503,7 +503,7 @@ function loadScummBarLady02_head(){
 	);
 };
 function loadScummBarLady02_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarLady02_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarLady02_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -520,7 +520,7 @@ function loadScummBarLady02_body(){
 	);
 };
 function loadScummBarDog_wBone_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarDog_wBone_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarDog_wBone_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				geometry.translate(0, -2, 0)
@@ -538,7 +538,7 @@ function loadScummBarDog_wBone_head(){
 	);
 };
 function loadScummBarDog_wBone_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarDog_wBone_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarDog_wBone_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -556,7 +556,7 @@ function loadScummBarDog_wBone_body(){
 };
 
 function loadScummBarPirateKing01_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirateKing01_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirateKing01_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -573,7 +573,7 @@ function loadScummBarPirateKing01_head(){
 	);
 };
 function loadScummBarPirateKing01_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirateKing01_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirateKing01_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -590,7 +590,7 @@ function loadScummBarPirateKing01_body(){
 	);
 };
 function loadScummBarPirateKing01_drinkArm(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirateKing01_drinkArm.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirateKing01_drinkArm.js',
 			function (geometry, materials){
 				var material = materials[0];
 				geometry.translate(0, -2, 3);
@@ -608,7 +608,7 @@ function loadScummBarPirateKing01_drinkArm(){
 	);
 };
 function loadScummBarPirateKing02_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirateKing02_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirateKing02_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -625,7 +625,7 @@ function loadScummBarPirateKing02_head(){
 	);
 };
 function loadScummBarPirateKing02_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirateKing02_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirateKing02_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -642,7 +642,7 @@ function loadScummBarPirateKing02_body(){
 	);
 };
 function loadScummBarPirateKing02_drinkArm(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirateKing02_drinkArm.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirateKing02_drinkArm.js',
 			function (geometry, materials){
 				var material = materials[0];
 				geometry.translate(0, -2, 2);
@@ -659,7 +659,7 @@ function loadScummBarPirateKing02_drinkArm(){
 	);
 };
 function loadScummBarPirateKing03_head(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirateKing03_head.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirateKing03_head.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -675,7 +675,7 @@ function loadScummBarPirateKing03_head(){
 	);
 };
 function loadScummBarPirateKing03_body(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirateKing03_body.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirateKing03_body.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -691,7 +691,7 @@ function loadScummBarPirateKing03_body(){
 	);
 };
 function loadScummBarPirateKing03_drinkArm(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_chars/scummBarPirateKing03_drinkArm.js',
+	loader.load('../_models/_scummBar/_chars/scummBarPirateKing03_drinkArm.js',
 			function (geometry, materials){
 				var material = materials[0];
 				geometry.translate(0, -1, 3);
@@ -709,7 +709,7 @@ function loadScummBarPirateKing03_drinkArm(){
 };
 
 function loadPaperObject(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_decor/paperMini.js',
+	loader.load('../_models/_scummBar/_decor/paperMini.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -720,7 +720,7 @@ function loadPaperObject(){
 				paperObject.lookText = "Looks like paper.";
 				paperObject.invLookText = "It says: This Game Isn't Finished.";
 				paperObject.item = true;
-				paperObject.invImage = "http://www.casesilva.com/_assets/_monkeyIsland/_images/paper.png"
+				paperObject.invImage = "../_images/paper.png"
 				paperObject.epOverride = 1;
 				paperObject.endPoint = new THREE.Vector3(12, 1, 7.75);
 				loadFireFrame1();
@@ -729,7 +729,7 @@ function loadPaperObject(){
 };
 
 function loadFireFrame1(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_decor/scummBarFireFrame1.js',
+	loader.load('../_models/_scummBar/_decor/scummBarFireFrame1.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -743,7 +743,7 @@ function loadFireFrame1(){
 	);
 };
 function loadFireFrame2(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_decor/scummBarFireFrame2.js',
+	loader.load('../_models/_scummBar/_decor/scummBarFireFrame2.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -757,7 +757,7 @@ function loadFireFrame2(){
 	);
 };
 function loadFireFrame3(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/_decor/scummBarFireFrame3.js',
+	loader.load('../_models/_scummBar/_decor/scummBarFireFrame3.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
@@ -771,7 +771,7 @@ function loadFireFrame3(){
 	);
 };
 function loadScummBarNavMesh(){
-	loader.load('http://www.casesilva.com/_assets/_monkeyIsland/_models/_scummBar/walkPaths.js',
+	loader.load('../_models/_scummBar/walkPaths.js',
 			function (geometry, materials){
 				var material = materials[0];
 				var faceMaterial = new THREE.MultiMaterial(materials);
