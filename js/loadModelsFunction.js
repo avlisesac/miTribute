@@ -5,7 +5,7 @@ function loadModels() {
 //*Load Models*//
 function loadGuybrushIdleStill() {
   loader.load(
-    "../models/guybrush/guybrushIdleStill.js",
+    "./models/guybrush/guybrushIdleStill.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -22,7 +22,7 @@ function loadGuybrushIdleStill() {
 
 function loadGuybrushWalkFrame01() {
   loader.load(
-    "../models/guybrush/guybrushWalk_frame1.js",
+    "./models/guybrush/guybrushWalk_frame1.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -37,7 +37,7 @@ function loadGuybrushWalkFrame01() {
 }
 function loadGuybrushWalkFrame02() {
   loader.load(
-    "../models/guybrush/guybrushWalk_frame2.js",
+    "./models/guybrush/guybrushWalk_frame2.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -51,23 +51,20 @@ function loadGuybrushWalkFrame02() {
   );
 }
 function loadScummBar1() {
-  loader.load(
-    "../models/scummBar/scummBar1.js",
-    function (geometry, materials) {
-      var material = materials[0];
-      var faceMaterial = new THREE.MultiMaterial(materials);
-      var object = new THREE.Mesh(geometry, faceMaterial);
-      scummBar1 = object;
-      scummBar1.name = "scummBar1";
-      scummBar1.screenName = "";
-      scummBar1.lookYN = false;
-      loadScummConvo1();
-    }
-  );
+  loader.load("./models/scummBar/scummBar1.js", function (geometry, materials) {
+    var material = materials[0];
+    var faceMaterial = new THREE.MultiMaterial(materials);
+    var object = new THREE.Mesh(geometry, faceMaterial);
+    scummBar1 = object;
+    scummBar1.name = "scummBar1";
+    scummBar1.screenName = "";
+    scummBar1.lookYN = false;
+    loadScummConvo1();
+  });
 }
 function loadScummConvo1() {
   loader.load(
-    "../models/scummBar/convos/scummConvo1.js",
+    "./models/scummBar/convos/scummConvo1.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -86,7 +83,7 @@ function loadScummConvo1() {
 }
 function loadScummBarPirate01_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate01_head.js",
+    "./models/scummBar/chars/scummBarPirate01_head.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -110,7 +107,7 @@ function loadScummBarPirate01_head() {
 }
 function loadScummBarPirate01_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate01_body.js",
+    "./models/scummBar/chars/scummBarPirate01_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -134,7 +131,7 @@ function loadScummBarPirate01_body() {
 }
 function loadScummBarPirate02() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate02.js",
+    "./models/scummBar/chars/scummBarPirate02.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -153,7 +150,7 @@ function loadScummBarPirate02() {
 
 function loadScummBarPirate03_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate03_head.js",
+    "./models/scummBar/chars/scummBarPirate03_head.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -171,7 +168,7 @@ function loadScummBarPirate03_head() {
 }
 function loadScummBarPirate03_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate03_body.js",
+    "./models/scummBar/chars/scummBarPirate03_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -190,7 +187,7 @@ function loadScummBarPirate03_body() {
 
 function loadScummBarPirate04_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate04_head.js",
+    "./models/scummBar/chars/scummBarPirate04_head.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -208,7 +205,7 @@ function loadScummBarPirate04_head() {
 }
 function loadScummBarPirate04_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate04_body.js",
+    "./models/scummBar/chars/scummBarPirate04_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -226,7 +223,7 @@ function loadScummBarPirate04_body() {
 }
 function loadScummBarPirate05() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate05.js",
+    "./models/scummBar/chars/scummBarPirate05.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -244,7 +241,7 @@ function loadScummBarPirate05() {
 }
 function loadScummBarPirate06() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate06.js",
+    "./models/scummBar/chars/scummBarPirate06.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -262,7 +259,7 @@ function loadScummBarPirate06() {
 }
 function loadScummBarPirate07_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate07_head.js",
+    "./models/scummBar/chars/scummBarPirate07_head.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -281,7 +278,7 @@ function loadScummBarPirate07_head() {
 }
 function loadScummBarPirate07_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate07_body.js",
+    "./models/scummBar/chars/scummBarPirate07_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -300,7 +297,7 @@ function loadScummBarPirate07_body() {
 }
 function loadScummBarPirate08_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate08_head.js",
+    "./models/scummBar/chars/scummBarPirate08_head.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -319,7 +316,7 @@ function loadScummBarPirate08_head() {
 }
 function loadScummBarPirate08_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate08_body.js",
+    "./models/scummBar/chars/scummBarPirate08_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -338,7 +335,7 @@ function loadScummBarPirate08_body() {
 }
 function loadScummBarPirate09_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate09_head.js",
+    "./models/scummBar/chars/scummBarPirate09_head.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -356,7 +353,7 @@ function loadScummBarPirate09_head() {
 }
 function loadScummBarPirate09_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate09_body.js",
+    "./models/scummBar/chars/scummBarPirate09_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -374,7 +371,7 @@ function loadScummBarPirate09_body() {
 }
 function loadScummBarPirate10_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate10_head.js",
+    "./models/scummBar/chars/scummBarPirate10_head.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -392,7 +389,7 @@ function loadScummBarPirate10_head() {
 }
 function loadScummBarPirate10_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate10_body.js",
+    "./models/scummBar/chars/scummBarPirate10_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -410,7 +407,7 @@ function loadScummBarPirate10_body() {
 }
 function loadScummBarPirate11() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate11.js",
+    "./models/scummBar/chars/scummBarPirate11.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -428,7 +425,7 @@ function loadScummBarPirate11() {
 }
 function loadScummBarPirate12() {
   loader.load(
-    "../models/scummBar/chars/scummBarAnchorPirate.js",
+    "./models/scummBar/chars/scummBarAnchorPirate.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -447,7 +444,7 @@ function loadScummBarPirate12() {
 }
 function loadScummBarPirate13_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate13_head.js",
+    "./models/scummBar/chars/scummBarPirate13_head.js",
     function (geometry, materials) {
       var material = materials[0];
       geometry.translate(0, -1.5, 0);
@@ -466,7 +463,7 @@ function loadScummBarPirate13_head() {
 }
 function loadScummBarPirate13_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirate13_body.js",
+    "./models/scummBar/chars/scummBarPirate13_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -484,7 +481,7 @@ function loadScummBarPirate13_body() {
 }
 function loadScummBarLady01_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarLady01_head.js",
+    "./models/scummBar/chars/scummBarLady01_head.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -502,7 +499,7 @@ function loadScummBarLady01_head() {
 }
 function loadScummBarLady01_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarLady01_body.js",
+    "./models/scummBar/chars/scummBarLady01_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -521,7 +518,7 @@ function loadScummBarLady01_body() {
 
 function loadScummBarLady02_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarLady02_head.js",
+    "./models/scummBar/chars/scummBarLady02_head.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -539,7 +536,7 @@ function loadScummBarLady02_head() {
 }
 function loadScummBarLady02_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarLady02_body.js",
+    "./models/scummBar/chars/scummBarLady02_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -557,7 +554,7 @@ function loadScummBarLady02_body() {
 }
 function loadScummBarDog_wBone_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarDog_wBone_head.js",
+    "./models/scummBar/chars/scummBarDog_wBone_head.js",
     function (geometry, materials) {
       var material = materials[0];
       geometry.translate(0, -2, 0);
@@ -576,7 +573,7 @@ function loadScummBarDog_wBone_head() {
 }
 function loadScummBarDog_wBone_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarDog_wBone_body.js",
+    "./models/scummBar/chars/scummBarDog_wBone_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -595,7 +592,7 @@ function loadScummBarDog_wBone_body() {
 
 function loadScummBarPirateKing01_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirateKing01_head.js",
+    "./models/scummBar/chars/scummBarPirateKing01_head.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -613,7 +610,7 @@ function loadScummBarPirateKing01_head() {
 }
 function loadScummBarPirateKing01_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirateKing01_body.js",
+    "./models/scummBar/chars/scummBarPirateKing01_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -631,7 +628,7 @@ function loadScummBarPirateKing01_body() {
 }
 function loadScummBarPirateKing01_drinkArm() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirateKing01_drinkArm.js",
+    "./models/scummBar/chars/scummBarPirateKing01_drinkArm.js",
     function (geometry, materials) {
       var material = materials[0];
       geometry.translate(0, -2, 3);
@@ -655,7 +652,7 @@ function loadScummBarPirateKing01_drinkArm() {
 }
 function loadScummBarPirateKing02_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirateKing02_head.js",
+    "./models/scummBar/chars/scummBarPirateKing02_head.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -673,7 +670,7 @@ function loadScummBarPirateKing02_head() {
 }
 function loadScummBarPirateKing02_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirateKing02_body.js",
+    "./models/scummBar/chars/scummBarPirateKing02_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -691,7 +688,7 @@ function loadScummBarPirateKing02_body() {
 }
 function loadScummBarPirateKing02_drinkArm() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirateKing02_drinkArm.js",
+    "./models/scummBar/chars/scummBarPirateKing02_drinkArm.js",
     function (geometry, materials) {
       var material = materials[0];
       geometry.translate(0, -2, 2);
@@ -714,7 +711,7 @@ function loadScummBarPirateKing02_drinkArm() {
 }
 function loadScummBarPirateKing03_head() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirateKing03_head.js",
+    "./models/scummBar/chars/scummBarPirateKing03_head.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -731,7 +728,7 @@ function loadScummBarPirateKing03_head() {
 }
 function loadScummBarPirateKing03_body() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirateKing03_body.js",
+    "./models/scummBar/chars/scummBarPirateKing03_body.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -748,7 +745,7 @@ function loadScummBarPirateKing03_body() {
 }
 function loadScummBarPirateKing03_drinkArm() {
   loader.load(
-    "../models/scummBar/chars/scummBarPirateKing03_drinkArm.js",
+    "./models/scummBar/chars/scummBarPirateKing03_drinkArm.js",
     function (geometry, materials) {
       var material = materials[0];
       geometry.translate(0, -1, 3);
@@ -772,7 +769,7 @@ function loadScummBarPirateKing03_drinkArm() {
 
 function loadPaperObject() {
   loader.load(
-    "../models/scummBar/decor/paperMini.js",
+    "./models/scummBar/decor/paperMini.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -793,7 +790,7 @@ function loadPaperObject() {
 
 function loadFireFrame1() {
   loader.load(
-    "../models/scummBar/decor/scummBarFireFrame1.js",
+    "./models/scummBar/decor/scummBarFireFrame1.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -808,7 +805,7 @@ function loadFireFrame1() {
 }
 function loadFireFrame2() {
   loader.load(
-    "../models/scummBar/decor/scummBarFireFrame2.js",
+    "./models/scummBar/decor/scummBarFireFrame2.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -823,7 +820,7 @@ function loadFireFrame2() {
 }
 function loadFireFrame3() {
   loader.load(
-    "../models/scummBar/decor/scummBarFireFrame3.js",
+    "./models/scummBar/decor/scummBarFireFrame3.js",
     function (geometry, materials) {
       var material = materials[0];
       var faceMaterial = new THREE.MultiMaterial(materials);
@@ -837,34 +834,31 @@ function loadFireFrame3() {
   );
 }
 function loadScummBarNavMesh() {
-  loader.load(
-    "../models/scummBar/walkPaths.js",
-    function (geometry, materials) {
-      var material = materials[0];
-      var faceMaterial = new THREE.MultiMaterial(materials);
-      var object = new THREE.Mesh(geometry, faceMaterial);
-      navMesh = object;
-      navMesh.name = "navMesh";
-      navMesh.visible = false;
+  loader.load("./models/scummBar/walkPaths.js", function (geometry, materials) {
+    var material = materials[0];
+    var faceMaterial = new THREE.MultiMaterial(materials);
+    var object = new THREE.Mesh(geometry, faceMaterial);
+    navMesh = object;
+    navMesh.name = "navMesh";
+    navMesh.visible = false;
 
-      var zoneNodes = patrol.buildNodes(geometry);
-      patrol.setZoneData("navMesh", zoneNodes);
+    var zoneNodes = patrol.buildNodes(geometry);
+    patrol.setZoneData("navMesh", zoneNodes);
 
-      playerNavMeshGroup = patrol.getGroup("navMesh", guybrushGroup.position);
+    playerNavMeshGroup = patrol.getGroup("navMesh", guybrushGroup.position);
 
-      sceneAdd();
-      lightLoops();
-      fireLoop();
-      pirateLoop01();
-      pirateLoop02();
-      pirateLoop03();
-      pirateLoop04();
-      pirateLoop05();
-      pirateKing01Loop();
-      pirateKing02Loop();
-      pirateKing03Loop();
-      dogLoop();
-      anchorLoop();
-    }
-  );
+    sceneAdd();
+    lightLoops();
+    fireLoop();
+    pirateLoop01();
+    pirateLoop02();
+    pirateLoop03();
+    pirateLoop04();
+    pirateLoop05();
+    pirateKing01Loop();
+    pirateKing02Loop();
+    pirateKing03Loop();
+    dogLoop();
+    anchorLoop();
+  });
 }
